@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL ^ E_DEPRECATED);
 
 include 'autoload.php';
 
@@ -68,8 +69,16 @@ echo "<br>";
 $input = new Input();
 
 echo $input
-    // ->text("Привет")
     ->setType('radio')
+    ->HTML();
+
+
+echo "<br>";
+
+$input = new Input();
+
+echo $input
+    ->setValueType(['submit' => 'okey'])
     ->HTML();
 
 echo "<br>";
