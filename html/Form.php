@@ -1,22 +1,40 @@
 <?php
 
-class Form
+class Form extends PairTag
 {
-    protected $method;
-    protected $action;
+    private $action;
+    private $method = "GET";
+    private $content;
 
-    public function method(string $method): self
+    public function setAction(string $action)
     {
-        $this->method = "method='$method'";
+        $this->action = $action;
         return $this;
     }
-    public function action(string $action): self
+
+    public function setContent(string $content)
     {
-        $this->action = " action='$action'";
+        $this->content = $content;
         return $this;
     }
+
+    public function addContent(string $content)
+    {
+        $this->content .= $content;
+        return $this;
+    }
+
+    public function setMethod($method)
+    {
+        if (in_array($method, ["POST", "GET"])) {
+            $this->method = $method;
+        }
+        return $this;
+    }
+
+
     public function html()
     {
-        return "<form $this->action $this->method></form>";
+        return "<form action='$this->action' method='$this->method'>\n$this->content</form>";
     }
 }

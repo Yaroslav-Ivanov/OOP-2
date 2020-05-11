@@ -1,31 +1,26 @@
 <?php
 
-class Textarea
+class TextArea extends Name
 {
-    protected $rows;
-    protected $cols;
-    protected $name;
+    private $row = 50;
+    private $coll = 50;
 
-    public function rows(string $rows): self
+    public function setRow(int $row)
     {
-        $this->rows = " rows='$rows'";
+        $this->row = $row;
         return $this;
     }
 
-    public function cols(string $cols): self
+    public function setColl(int $coll)
     {
-        $this->cols = " cols='$cols'";
-        return $this;
-    }
-
-    public function name(string $name): self
-    {
-        $this->name = " name='$name";
+        $this->coll = $coll;
         return $this;
     }
 
     public function html()
     {
-        return "<textarea $this->rows $this->cols $this->name></textarea>";
+        return "<textarea name='$this->name' id='$this->id' 
+        class=''$this->class style='$this->style' coll='$this->coll' 
+        row='$this->row'>$this->innerText</textarea>";
     }
 }
