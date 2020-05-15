@@ -9,6 +9,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <style>
     .tictac td {
         border: 1px solid black;
@@ -20,20 +21,41 @@ session_start();
 </head>
 
 <body>
+    <a href="?action=newGame">Новая игра!<br></a>
     <?php
 
     include 'autoload.php';
 
     $ai = new Ai(3);
 
-    $ai->selfGaming();
-    if ($ai->checWin() === 1) {
-        echo "Выйграли крестики!";
-    } elseif ($ai->checWin() === 0) {
-        echo "Выйграли нолики!";
-    } else {
-        echo "Ничья!";
+    $ai->loadMap();
+
+    switch ($_GET['action']) {
+        case 'shot':
+            if (!empty($ai->searchEmptyCells()) && $ai->checWin() === null) {
+                $ai->putCross($_GET['i'], $_GET['j']);
+            }
+            $ai->putRandNull();
+
+            break;
+        case 'newGame':
+            $ai->initMap(3);
+            break;
     }
+
+    $ai->saveMap();
+    // $ai->selfGaming();
+    if (empty($ai->searchEmptyCells()) || $ai->checWin() !== null) {
+        if ($ai->checWin() === 1) {
+            echo "Выйграли крестики!";
+        } elseif ($ai->checWin() === 0) {
+            echo "Выйграли нолики!";
+        } else {
+            echo "Ничья!";
+        }
+    }
+
+
 
     // $ai->initMap(3)
     //     ->putRandCross()
@@ -51,18 +73,6 @@ session_start();
     $area->setMap($ai->getMap());
 
     echo $area->html();
-
-    $test = new TestClass();
-
-    // $test->run(new JsonFile('data.json'));
-
-    // $test->run(new IniFile('data.ini'));
-
-    // $test->run(new PHPFile('data.php'));
-
-    $test->run(new SessionSaver('session'));
-
-    print_r($_SESSION);
     ?>
 </body>
 
