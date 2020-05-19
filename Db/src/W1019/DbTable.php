@@ -42,17 +42,28 @@ class DbTable implements CRUDInterface
         return $this->mysqli->insert_id;
     }
 
-    public function edit(int $id, array $data)
-    {
+    
         //UPDATE w1019 SET `name` = 'Petya', `text` = 'Пока' WHERE id = 4;
-        
+        public function edit(int $id, array $data)
+    {
         $editData = [];
-        foreach ($data as $key => $value){
-            $editData[] = "`$key` = '$value' ";
-
+        foreach ($data as $key => $value) {
+            $editData[] = " `$key` = '$value' ";
         }
 
-        $sql = "UPDATE `$this->tableName` SET ".implode(", ", $editData )." WHERE id = $id;";
+        $sql = "UPDATE `$this->tableName` SET " . implode(", ", $editData) . " WHERE id = $id;";
+
+        $this->mysqli->query($sql);
+
+        return $this;
+    }
+
+    public function delete(int $id)
+    {
+        $sql = "DELETE FROM `$this->tableName` WHERE id=$id;";
+
+        $this->mysqli->query($sql);
+        
         return $this;
     }
 }

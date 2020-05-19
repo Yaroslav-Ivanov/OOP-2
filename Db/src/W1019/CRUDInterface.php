@@ -18,4 +18,9 @@ interface CRUDInterface
      * update
      */
     public function edit(int $id, array $data);
+
+     /**
+     * delete
+     */
+     public function delete(int $id);
 }
